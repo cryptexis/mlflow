@@ -12,7 +12,7 @@ from mlflow.entities.metric import Metric
 
 from mlflow.utils.rest_utils import http_request
 
-from mlflow.protos.service_pb2 import CreateExperiment, MlflowService, GetExperiment, \
+from mlflow.protos.service_pb2 import CreateExperiment, MlflowService, GetExperiment, GetExperimentByName, \
     GetRun, SearchRuns, ListExperiments, GetMetricHistory, LogMetric, LogParam, UpdateRun,\
     CreateRun, GetMetric, GetParam
 
@@ -100,8 +100,8 @@ class RestStore(AbstractStore):
         :param name: String name for the experiment
         :return: A single Experiment object if it exists, otherwise raises an Exception.
         """
-        req_body = MessageToJson(GetExperiment(name=name))
-        response_proto = self._call_endpoint(GetExperiment, req_body)
+        req_body = MessageToJson(GetExperimentByName(name=name))
+        response_proto = self._call_endpoint(GetExperimentByName, req_body)
         return Experiment.from_proto(response_proto.experiment)
 
     def get_run(self, run_uuid):
